@@ -7,21 +7,26 @@ import "lib/forge-std/src/Test.sol";
 
 
 contract TokenBondingCurve_LinearTest is Test {
-    TokenBondingCurve_Linear public tbcl;
+    TokenBondingCurve_Linear public tbcl;                      
+    address user = address(1);
 
     function setUp() public {
         tbcl = new TokenBondingCurve_Linear("alphabet", "abc", 2);
     }
 
     function testBuy() public {
-        // uint val = tbcl.calculatePriceForBuy(5);
-        console.log("0");
-        tbcl.buy{value: 0.00000000000000003 ether}(5);
+        uint oldBal = address(this).balance;
+        vm.deal(user, 1 ether);
+        vm.startPrank(user);
+        uint val = tbcl.calculatePriceForBuy(5);
+        console.log("0", val);
+        tbcl.buy{value: val}(5);
         console.log("1");
         assertEq(tbcl.totalSupply(), 5);
-        console.log("2");
-        assertEq(address(this).balance, 30 wei);
+        console.log("2", oldBal, address(this).balance);
+        assertEq(address(this).balance, oldBal);
         console.log("3");
+        vm.stopPrank();
     }
 
     // function testSetNumber(uint256 x) public {
