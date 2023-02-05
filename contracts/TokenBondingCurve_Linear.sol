@@ -38,6 +38,8 @@ contract TokenBondingCurve_Linear is ERC20, Ownable {
      */
     function buy(uint256 _amount) external payable {
         uint price = _calculatePriceForBuy(_amount);
+            // emit tester(msg.value);
+            // emit tester(price);
         if(msg.value < price) {
             revert LowOnEther(msg.value, address(msg.sender).balance);
         }
