@@ -31,23 +31,19 @@ contract TokenBondingCurve_Linear is ERC20, Ownable {
         _slope = slope_;
     }
 
-    event tester(uint);
+    // event tester(uint);
     /**
      * @dev Allows a user to buy tokens.
      * @param _amount The number of tokens to buy.
      */
     function buy(uint256 _amount) external payable {
         uint price = _calculatePriceForBuy(_amount);
-        emit tester(99);
         if(msg.value < price) {
             revert LowOnEther(msg.value, address(msg.sender).balance);
         }
-        emit tester(11);
         _mint(msg.sender, _amount);
-        emit tester(22);
         (bool sent,) = payable(msg.sender).call{value: msg.value - price}("");
         require(sent, "Failed to send Ether");
-        emit tester(33);
     }
 
     /**
