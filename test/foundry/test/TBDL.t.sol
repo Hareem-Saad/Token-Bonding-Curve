@@ -7,13 +7,13 @@ import "lib/forge-std/src/Test.sol";
 
 
 contract TokenBondingCurve_LinearTest is Test {
-    TokenBondingCurve_Linear public tbcl;        
-    uint256 MAX_INT = 115792089237316195423570985008687907853269984665640564039457584007913129639935;        
-    uint256 HUN_INT = (2**256 - 1) - 100;        
+    TokenBondingCurve_Linear public tbcl;     
     address user = address(1);
+    address deployer = address(100);
     event tester(uint);
 
     function setUp() public {
+        vm.prank(deployer);
         tbcl = new TokenBondingCurve_Linear("alphabet", "abc", 2);
     }
 
@@ -54,7 +54,7 @@ contract TokenBondingCurve_LinearTest is Test {
         vm.stopPrank();
     }
 
-    function testBuyAndSell_withFuzzing(uint amount) public {
+    function testSystem_withFuzzing(uint amount) public {
         // vm.assume(amount > 40000050 && amount < 50000000);
         //assumptions
         
@@ -150,5 +150,30 @@ contract TokenBondingCurve_LinearTest is Test {
         //check if balance decreases
         assertEq(address(tbcl).balance, tax);
 
+        //*****************************************************************
+        uint oldOwnerBal = tbcl.owner().balance;
+        vm.prank(tbcl.owner());
+        tbcl.withdraw();
+        emit tester(tbcl.owner().balance);
+        assertEq(tbcl.owner().balance, oldOwnerBal + tax);
+
+    }
+
+    function testCannot_Sell() public {
+        vm.expectRevert(
+            abi.encodeWithSelector(LowOnTokens.selector, 6, 0)
+        );
+        vm.startPrank(user);
+        tbcl.sell(6);
+        vm.stopPrank();
+    }
+
+    function testCannot_Withdraw() public {
+        vm.expectRevert(
+            abi.encodeWithSelector(LowOnEther.selector, 0, 0)
+        );
+        vm.startPrank(deployer);
+        tbcl.withdraw();
+        vm.stopPrank();
     }
 }
