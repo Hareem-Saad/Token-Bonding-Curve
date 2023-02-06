@@ -10,64 +10,64 @@
   },
   "ast": {
     "absolutePath": "test/foundry/test/Counter.t.sol",
-    "id": 27652,
+    "id": 27642,
     "exportedSymbols": {
       "Counter": [
         21
       ],
       "DSTest": [
-        2142
+        2132
       ],
       "StdAssertions": [
-        3448
+        3438
       ],
       "StdChains": [
-        4112
+        4102
       ],
       "StdCheats": [
-        6073
+        6063
       ],
       "StdStorage": [
-        6980
+        6970
       ],
       "StdUtils": [
-        9167
+        9157
       ],
       "Test": [
-        9209
+        9199
       ],
       "TestBase": [
-        2202
+        2192
       ],
       "Vm": [
-        10499
+        10489
       ],
       "console": [
-        18563
+        18553
       ],
       "console2": [
-        26659
+        26649
       ],
       "stdError": [
-        6139
+        6129
       ],
       "stdJson": [
-        6806
+        6796
       ],
       "stdMath": [
-        6948
+        6938
       ],
       "stdStorage": [
-        8413
+        8403
       ]
     },
     "nodeType": "SourceUnit",
-    "src": "40:561:22",
+    "src": "39:538:22",
     "nodes": [
       {
-        "id": 27649,
+        "id": 27639,
         "nodeType": "PragmaDirective",
-        "src": "40:24:22",
+        "src": "39:24:22",
         "nodes": [],
         "literals": [
           "solidity",
@@ -77,27 +77,27 @@
         ]
       },
       {
-        "id": 27650,
+        "id": 27640,
         "nodeType": "ImportDirective",
-        "src": "68:36:22",
+        "src": "65:36:22",
         "nodes": [],
         "absolutePath": "lib/forge-std/src/Test.sol",
         "file": "lib/forge-std/src/Test.sol",
         "nameLocation": "-1:-1:-1",
-        "scope": 27652,
-        "sourceUnit": 9210,
+        "scope": 27642,
+        "sourceUnit": 9200,
         "symbolAliases": [],
         "unitAlias": ""
       },
       {
-        "id": 27651,
+        "id": 27641,
         "nodeType": "ImportDirective",
-        "src": "106:31:22",
+        "src": "102:31:22",
         "nodes": [],
         "absolutePath": "contracts/Counter.sol",
         "file": "contracts/Counter.sol",
         "nameLocation": "-1:-1:-1",
-        "scope": 27652,
+        "scope": 27642,
         "sourceUnit": 22,
         "symbolAliases": [],
         "unitAlias": ""

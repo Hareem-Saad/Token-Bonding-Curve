@@ -115,14 +115,11 @@ contract TokenBondingCurve_Linear is ERC20, Ownable {
     function _calculatePriceForBuy(
         uint256 _tokensToBuy
     ) private view returns (uint256) {
-        uint price = 0;
-        uint totalSupply = totalSupply();
-        // console.log(totalSupply + 1, totalSupply + _tokensToBuy);
-        for (uint i = totalSupply + 1; i < totalSupply + _tokensToBuy + 1; i++) {
-            price += (i * _slope);
-        }
-        return price;
+        uint ts = totalSupply();
+        uint tsa = ts + _tokensToBuy;
+        return auc(tsa) - auc(ts);
     }
+
 
     /**
      * @dev Calculates the price for selling tokens based on the bonding curve.
@@ -132,15 +129,17 @@ contract TokenBondingCurve_Linear is ERC20, Ownable {
     function _calculatePriceForSell(
         uint256 _tokensToSell
     ) private view returns (uint256) {
-        uint totalSupply = totalSupply();
-        if (_tokensToSell > totalSupply) {
-            revert();
-        }
-        uint price = 0;
-        for (uint i = totalSupply; i > totalSupply - _tokensToSell; i--) {
-            price += (i * _slope);
-        }
-        return price;
+        uint ts = totalSupply();
+        uint tsa = ts - _tokensToSell;
+        return auc(ts) - auc(tsa);
+    }
+
+    /**
+     * @dev calculates area under the curve 
+     * @param x value of x
+     */
+    function auc(uint x) internal view returns (uint256) {
+        return (_slope * (x ** 2)) / 2 ;
     }
 
     /**
