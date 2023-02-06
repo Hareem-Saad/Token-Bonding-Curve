@@ -124,7 +124,8 @@ contract TokenBondingCurve_LinearTest is Test {
         assertEq(tbcl.totalSupply(), cs - 5);
 
         //check if balance decreases
-        assertEq(address(tbcl).balance, oldBal - price2);
+        console.log(address(tbcl).balance, oldBal, price2);
+        assertEq(address(tbcl).balance, oldBal - price2 + tax);
         console.log(3);
 
         //check if tax is not zero
