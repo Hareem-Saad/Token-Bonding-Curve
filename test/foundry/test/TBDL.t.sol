@@ -122,9 +122,11 @@ contract TokenBondingCurve_LinearTest is Test {
 
         //check if balance decreases
         assertEq(address(tbcl).balance, address(tbcl).balance - price2);
+        console.log(3);
 
         //check if tax is not zero
         assertEq(tax, ((price2 * 1000) / 10000));
+        console.log(4);
 
         //*****************************************************************
         //sell rest of tokens

@@ -62,7 +62,8 @@ contract TokenBondingCurve_Linear is ERC20, Ownable {
         // console.log(tax, _price - tax);
         _tax += tax;
 
-        payable(msg.sender).transfer(_price - tax);
+        (bool sent,) = payable(msg.sender).call{value: _price - tax}("");
+        require(sent, "Failed to send Ether");
     }
 
     /**
