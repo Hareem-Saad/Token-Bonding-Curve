@@ -106,6 +106,8 @@ contract TokenBondingCurve_LinearTest is Test {
         //check if tax is zero
         assertEq(tax, 0);
 
+        oldBal = address(tbcl).balance;
+
         //*****************************************************************
         //sell 5 tokens
         uint cs = tbcl.totalSupply();
@@ -117,11 +119,12 @@ contract TokenBondingCurve_LinearTest is Test {
         _tax = vm.load(address(tbcl), bytes32(uint256(0)));
         tax = (uint256(_tax));
 
+        //TODO: fix assertions from here
         //check if total supply increases
         assertEq(tbcl.totalSupply(), cs - 5);
 
         //check if balance decreases
-        assertEq(address(tbcl).balance, address(tbcl).balance - price2);
+        assertEq(address(tbcl).balance, oldBal - price2);
         console.log(3);
 
         //check if tax is not zero

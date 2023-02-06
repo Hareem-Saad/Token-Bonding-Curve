@@ -99,8 +99,8 @@
       }
     },
     "contracts/TokenBondingCurve_Linear.sol": {
-      "lastModificationDate": 1675686161888,
-      "contentHash": "4b4bdf200d0ff008265ebb30d8de2d5e",
+      "lastModificationDate": 1675686191111,
+      "contentHash": "a3e686981850e6bcb3d813dcfe19e7a9",
       "sourceName": "contracts/TokenBondingCurve_Linear.sol",
       "solcConfig": {
         "settings": {
@@ -1104,8 +1104,8 @@
       }
     },
     "test/foundry/test/TBDL.t.sol": {
-      "lastModificationDate": 1675685957856,
-      "contentHash": "5f5c1d2b9ec97ae50c2ab0d0f3f122c4",
+      "lastModificationDate": 1675686423930,
+      "contentHash": "27c50bbd4351772c87b1ee729afb99b3",
       "sourceName": "test/foundry/test/TBDL.t.sol",
       "solcConfig": {
         "settings": {
