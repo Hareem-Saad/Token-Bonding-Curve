@@ -11,6 +11,7 @@ contract TokenBondingCurve_LinearTest is Test {
     uint256 MAX_INT = 115792089237316195423570985008687907853269984665640564039457584007913129639935;        
     uint256 HUN_INT = (2**256 - 1) - 100;        
     address user = address(1);
+    event tester(uint);
 
     function setUp() public {
         tbcl = new TokenBondingCurve_Linear("alphabet", "abc", 2);
@@ -28,13 +29,13 @@ contract TokenBondingCurve_LinearTest is Test {
         vm.stopPrank();
     }
 
-    function testFail_Buy() public {
+    function testCannot_Buy() public {
         // bytes calldata err = bytes("LowOnEther(0, 0)");
         // vm.expectRevert(err);
-        // vm.expectRevert(
-        //     abi.encodeWithSelector(LowOnEther.selector, 0, 0)
-        // );
-        vm.expectRevert("LowOnEther(0, 0)");
+        vm.expectRevert(
+            abi.encodeWithSelector(LowOnEther.selector, 0, 0)
+        );
+        // vm.expectRevert("LowOnEther(0, 0)");
         vm.startPrank(user);
         tbcl.buy(5);
         vm.stopPrank();
@@ -42,8 +43,7 @@ contract TokenBondingCurve_LinearTest is Test {
 
     function testBuy_withFuzzing(uint amount) public {
         // vm.assume(amount > 40000050 && amount < 50000000);
-        vm.assume(amount > 0);
-        vm.assume(amount < 900000);
+        vm.assume(amount > 0 && amount < 900000000000);
         uint oldBal = address(tbcl).balance;
         uint val = tbcl.calculatePriceForBuy(amount);
         vm.deal(user, 1000000000000000000000000000000000000 ether);
@@ -57,7 +57,8 @@ contract TokenBondingCurve_LinearTest is Test {
     function testBuyAndSell_withFuzzing(uint amount) public {
         // vm.assume(amount > 40000050 && amount < 50000000);
         //assumptions
-        vm.assume(amount > 0);
+        
+        vm.assume(amount > 0 && amount <= 900000000000);
 
         //save some variables
         uint oldBal = address(tbcl).balance;
@@ -67,15 +68,15 @@ contract TokenBondingCurve_LinearTest is Test {
         vm.deal(user, 1000000000000000000000000000000000000 ether); 
 
         //start
-        vm.startPrank(user);
+        vm.prank(user);
 
         //*****************************************************************
         //buy tkns
         tbcl.buy{value: val}(amount);
 
         //read from slot zero to find out tax
-        bytes32 _tax = vm.load(address(tbcl), bytes32(uint256(0)));
-        uint256 tax = (uint256(_tax));
+        // bytes32 _tax = vm.load(address(tbcl), bytes32(uint256(0)));
+        // uint256 tax = (uint256(_tax));
 
         //check if total supply increases
         assertEq(tbcl.totalSupply(), amount);
@@ -84,18 +85,16 @@ contract TokenBondingCurve_LinearTest is Test {
         assertEq(address(tbcl).balance, oldBal + val);
 
         //check if tax is zero
-        assertEq(tax, 0);
+        vm.prank(tbcl.owner());
+        assertEq(tbcl.viewTax(), 0);
 
         oldBal = address(tbcl).balance;
 
         //*****************************************************************
         //buy 10 more tokens
         uint price1 = tbcl.calculatePriceForBuy(10);
+        vm.prank(user);
         tbcl.buy{value: price1}(10);
-
-        //read from slot zero to find out tax
-        _tax = vm.load(address(tbcl), bytes32(uint256(0)));
-        tax = (uint256(_tax));
 
         //check if total supply increases
         assertEq(tbcl.totalSupply(), amount + 10);
@@ -104,7 +103,8 @@ contract TokenBondingCurve_LinearTest is Test {
         assertEq(address(tbcl).balance, oldBal + price1);
 
         //check if tax is zero
-        assertEq(tax, 0);
+        vm.prank(tbcl.owner());
+        assertEq(tbcl.viewTax(), 0);
 
         oldBal = address(tbcl).balance;
 
@@ -113,44 +113,42 @@ contract TokenBondingCurve_LinearTest is Test {
         uint cs = tbcl.totalSupply();
 
         uint price2 = tbcl.calculatePriceForSell(5);
+        vm.prank(user);
         tbcl.sell(5);
 
-        //read from slot zero to find out tax
-        _tax = vm.load(address(tbcl), bytes32(uint256(0)));
-        tax = (uint256(_tax));
+        //find out tax
+        vm.prank(tbcl.owner());
+        uint tax = tbcl.viewTax();
 
         //TODO: fix assertions from here
         //check if total supply increases
         assertEq(tbcl.totalSupply(), cs - 5);
 
         //check if balance decreases
-        console.log(address(tbcl).balance, oldBal, price2);
         assertEq(address(tbcl).balance, oldBal - price2 + tax);
-        console.log(3);
 
         //check if tax is not zero
         assertEq(tax, ((price2 * 1000) / 10000));
-        console.log(4);
 
         //*****************************************************************
         //sell rest of tokens
         uint price3 = tbcl.calculatePriceForSell(tbcl.totalSupply());
-        tbcl.sell(tbcl.totalSupply());
+        uint ts = tbcl.totalSupply();
+        vm.prank(user);
+        tbcl.sell(ts);
 
-        //read from slot zero to find out tax
-        _tax = vm.load(address(tbcl), bytes32(uint256(0)));
-        tax = (uint256(_tax));
+        //find out tax
+        vm.prank(tbcl.owner());
+        tax = tbcl.viewTax();
 
         //check if total supply decreases
         assertEq(tbcl.totalSupply(), 0);
 
         //check if tax is not zero
-        assertEq(tax, ((price3 * 1000) / 10000));
+        assertEq(tax, ((price3 * 1000) / 10000) + ((price2 * 1000) / 10000));
 
         //check if balance decreases
         assertEq(address(tbcl).balance, tax);
 
-        
-        vm.stopPrank();
     }
 }

@@ -151,4 +151,8 @@ contract TokenBondingCurve_Linear is ERC20, Ownable {
     function _calculateLoss(uint256 amount) private pure returns (uint256) {
         return (amount * _LOSS_FEE_PERCENTAGE) / (1E4);
     }
+
+    function viewTax() external view onlyOwner returns (uint256) {
+        return _tax;
+    }
 }
