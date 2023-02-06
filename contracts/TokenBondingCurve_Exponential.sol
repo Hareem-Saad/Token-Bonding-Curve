@@ -8,7 +8,7 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 error LowOnTokens(uint amount, uint balance);
 error LowOnEther(uint amount, uint balance);
 
-contract BondingCurveToken_Exponential is ERC20, Ownable {
+contract TokenBondingCurve_Exponential is ERC20, Ownable {
     uint256 private _tax;
 
     uint256 private immutable _exponent;
@@ -122,14 +122,11 @@ contract BondingCurveToken_Exponential is ERC20, Ownable {
     function _calculatePriceForBuy(
         uint256 _tokensToBuy
     ) private view returns (uint256) {
-        uint price = 0;
-        uint totalSupply = totalSupply();
-        // console.log(totalSupply + 1, totalSupply + _tokensToBuy);
-        for (uint i = totalSupply + 1; i < totalSupply + _tokensToBuy + 1; i++) {
-            price += _priceOfToken(i);
-        }
-        return price;
+        uint ts = totalSupply();
+        uint tsa = ts + _tokensToBuy;
+        return auc(tsa) - auc(ts);
     }
+
 
     /**
      * @dev Calculates the price for selling tokens based on the bonding curve.
@@ -139,15 +136,17 @@ contract BondingCurveToken_Exponential is ERC20, Ownable {
     function _calculatePriceForSell(
         uint256 _tokensToSell
     ) private view returns (uint256) {
-        uint totalSupply = totalSupply();
-        if (_tokensToSell > totalSupply) {
-            revert();
-        }
-        uint price = 0;
-        for (uint i = totalSupply; i > totalSupply - _tokensToSell; i--) {
-            price += _priceOfToken(i);
-        }
-        return price;
+        uint ts = totalSupply();
+        uint tsa = ts - _tokensToSell;
+        return auc(ts) - auc(tsa);
+    }
+
+    /**
+     * @dev calculates area under the curve 
+     * @param x value of x
+     */
+    function auc(uint x) internal view returns (uint256) {
+        return (x **(_exponent + 1)) / _exponent + 1 ;
     }
 
     /**
@@ -157,5 +156,9 @@ contract BondingCurveToken_Exponential is ERC20, Ownable {
      */
     function _calculateLoss(uint256 amount) private pure returns (uint256) {
         return (amount * _LOSS_FEE_PERCENTAGE) / (1E4);
+    }
+
+    function viewTax() external view onlyOwner returns (uint256) {
+        return _tax;
     }
 }

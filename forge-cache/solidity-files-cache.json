@@ -53,8 +53,8 @@
       }
     },
     "contracts/TokenBondingCurve_Exponential.sol": {
-      "lastModificationDate": 1675510668986,
-      "contentHash": "f41c48ff5ecb4d395268a43b17009332",
+      "lastModificationDate": 1675705467555,
+      "contentHash": "aa8e7b5ce80ba82fcb8ba2ad57455ce8",
       "sourceName": "contracts/TokenBondingCurve_Exponential.sol",
       "solcConfig": {
         "settings": {
@@ -93,8 +93,8 @@
       ],
       "versionRequirement": "^0.8.17",
       "artifacts": {
-        "BondingCurveToken_Exponential": {
-          "0.8.17+commit.8df45f5f.Windows.msvc": "TokenBondingCurve_Exponential.sol\\BondingCurveToken_Exponential.json"
+        "TokenBondingCurve_Exponential": {
+          "0.8.17+commit.8df45f5f.Windows.msvc": "TokenBondingCurve_Exponential.sol\\TokenBondingCurve_Exponential.json"
         }
       }
     },
@@ -1100,6 +1100,68 @@
       "artifacts": {
         "Counter.t": {
           "0.8.17+commit.8df45f5f.Windows.msvc": "Counter.t.sol\\Counter.t.json"
+        }
+      }
+    },
+    "test/foundry/test/TBDE.t.sol": {
+      "lastModificationDate": 1675705404581,
+      "contentHash": "49312d8ec0ccb311e4694e361140c9e9",
+      "sourceName": "test/foundry/test/TBDE.t.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "contracts\\TokenBondingCurve_Exponential.sol",
+        "lib/forge-std/lib/ds-test/src\\test.sol",
+        "lib/forge-std/src/Base.sol",
+        "lib/forge-std/src/StdAssertions.sol",
+        "lib/forge-std/src/StdChains.sol",
+        "lib/forge-std/src/StdCheats.sol",
+        "lib/forge-std/src/StdError.sol",
+        "lib/forge-std/src/StdJson.sol",
+        "lib/forge-std/src/StdMath.sol",
+        "lib/forge-std/src/StdStorage.sol",
+        "lib/forge-std/src/StdUtils.sol",
+        "lib/forge-std/src/Test.sol",
+        "lib/forge-std/src/Vm.sol",
+        "lib/forge-std/src/console.sol",
+        "lib/forge-std/src/console2.sol",
+        "lib/forge-std/src/interfaces/IMulticall3.sol",
+        "node_modules/@openzeppelin\\contracts/access/Ownable.sol",
+        "node_modules/@openzeppelin\\contracts/token/ERC20/ERC20.sol",
+        "node_modules/@openzeppelin/contracts/token/ERC20/IERC20.sol",
+        "node_modules/@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol",
+        "node_modules/@openzeppelin/contracts/utils/Context.sol"
+      ],
+      "versionRequirement": "^0.8.13",
+      "artifacts": {
+        "TokenBondingCurve_ExponentialTest": {
+          "0.8.17+commit.8df45f5f.Windows.msvc": "TBDE.t.sol\\TokenBondingCurve_ExponentialTest.json"
         }
       }
     },
