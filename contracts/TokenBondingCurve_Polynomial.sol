@@ -8,7 +8,7 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 error LowOnTokens(uint amount, uint balance);
 error LowOnEther(uint amount, uint balance);
 
-contract BondingCurveToken_Polynomial is ERC20, Ownable {
+contract TokenBondingCurve_Polynomial is ERC20, Ownable {
     uint256 private _tax;
 
     uint256 private immutable _exponent;
@@ -46,7 +46,9 @@ contract BondingCurveToken_Polynomial is ERC20, Ownable {
             revert LowOnEther(msg.value, address(msg.sender).balance);
         }
         _mint(msg.sender, _amount);
-        payable(msg.sender).transfer(msg.value - price);
+        
+        (bool sent,) = payable(owner()).call{value: msg.value - price}("");
+        require(sent, "Failed to send Ether");
     }
 
     /**
@@ -63,7 +65,8 @@ contract BondingCurveToken_Polynomial is ERC20, Ownable {
         // console.log(tax, _price - tax);
         _tax += tax;
 
-        payable(msg.sender).transfer(_price - tax);
+        (bool sent,) = payable(owner()).call{value: _price - tax}("");
+        require(sent, "Failed to send Ether");
     }
 
     /**
@@ -75,7 +78,9 @@ contract BondingCurveToken_Polynomial is ERC20, Ownable {
         }
         uint amount = _tax;
         _tax = 0;
-        payable(owner()).transfer(amount);
+        
+        (bool sent,) = payable(owner()).call{value: amount}("");
+        require(sent, "Failed to send Ether");
     }
 
     /**
@@ -127,14 +132,11 @@ contract BondingCurveToken_Polynomial is ERC20, Ownable {
     function _calculatePriceForBuy(
         uint256 _tokensToBuy
     ) private view returns (uint256) {
-        uint price = 0;
-        uint totalSupply = totalSupply();
-        // console.log(totalSupply + 1, totalSupply + _tokensToBuy);
-        for (uint i = totalSupply + 1; i < totalSupply + _tokensToBuy + 1; i++) {
-            price += _priceOfToken(i);
-        }
-        return price;
+        uint ts = totalSupply();
+        uint tsa = ts + _tokensToBuy;
+        return auc(tsa) - auc(ts);
     }
+
 
     /**
      * @dev Calculates the price for selling tokens based on the bonding curve.
@@ -144,15 +146,18 @@ contract BondingCurveToken_Polynomial is ERC20, Ownable {
     function _calculatePriceForSell(
         uint256 _tokensToSell
     ) private view returns (uint256) {
-        uint totalSupply = totalSupply();
-        if (_tokensToSell > totalSupply) {
-            revert();
-        } // revert update
-        uint price = 0;
-        for (uint i = totalSupply; i > totalSupply - _tokensToSell; i--) {
-            price += _priceOfToken(i);
-        }
-        return price;
+        uint ts = totalSupply();
+        uint tsa = ts - _tokensToSell;
+        return auc(ts) - auc(tsa);
+    }
+
+    /**
+     * @dev calculates area under the curve 
+     * @param x value of x
+     */
+    function auc(uint x) internal view returns (uint256) {
+        uint _exp_inc = _exponent + 1;
+        return ((x **_exp_inc) + (_exp_inc * _constant * x)) / _exp_inc ;
     }
 
     /**
@@ -162,5 +167,9 @@ contract BondingCurveToken_Polynomial is ERC20, Ownable {
      */
     function _calculateLoss(uint256 amount) private pure returns (uint256) {
         return (amount * _LOSS_FEE_PERCENTAGE) / (1E4);
+    }
+
+    function viewTax() external view onlyOwner returns (uint256) {
+        return _tax;
     }
 }

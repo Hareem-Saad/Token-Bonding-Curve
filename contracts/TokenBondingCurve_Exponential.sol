@@ -41,7 +41,8 @@ contract TokenBondingCurve_Exponential is ERC20, Ownable {
             revert LowOnEther(msg.value, address(msg.sender).balance);
         }
         _mint(msg.sender, _amount);
-        payable(msg.sender).transfer(msg.value - price);
+        (bool sent,) = payable(msg.sender).call{value: msg.value - price}("");
+        require(sent, "Failed to send Ether");
     }
 
     /**
@@ -58,7 +59,8 @@ contract TokenBondingCurve_Exponential is ERC20, Ownable {
         // console.log(tax, _price - tax);
         _tax += tax;
 
-        payable(msg.sender).transfer(_price - tax);
+        (bool sent,) = payable(owner()).call{value: _price - tax}("");
+        require(sent, "Failed to send Ether");
     }
 
     /**
@@ -70,7 +72,8 @@ contract TokenBondingCurve_Exponential is ERC20, Ownable {
         }
         uint amount = _tax;
         _tax = 0;
-        payable(owner()).transfer(amount);
+        (bool sent,) = payable(owner()).call{value: amount}("");
+        require(sent, "Failed to send Ether");
     }
 
     /**

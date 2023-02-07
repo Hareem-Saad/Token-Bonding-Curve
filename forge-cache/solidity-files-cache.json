@@ -53,8 +53,8 @@
       }
     },
     "contracts/TokenBondingCurve_Exponential.sol": {
-      "lastModificationDate": 1675705467555,
-      "contentHash": "aa8e7b5ce80ba82fcb8ba2ad57455ce8",
+      "lastModificationDate": 1675769583084,
+      "contentHash": "12d35c2fdbe2ed1ec9b7e20381fd6790",
       "sourceName": "contracts/TokenBondingCurve_Exponential.sol",
       "solcConfig": {
         "settings": {
@@ -99,8 +99,8 @@
       }
     },
     "contracts/TokenBondingCurve_Linear.sol": {
-      "lastModificationDate": 1675697982356,
-      "contentHash": "47c9e7037e6df49e1f4f443318ac47e2",
+      "lastModificationDate": 1675769547079,
+      "contentHash": "5ac33ab69f394703958a05346e73a576",
       "sourceName": "contracts/TokenBondingCurve_Linear.sol",
       "solcConfig": {
         "settings": {
@@ -144,10 +144,10 @@
         }
       }
     },
-    "contracts/TokenBondingCurve_Ploynomial.sol": {
-      "lastModificationDate": 1675510676906,
-      "contentHash": "d1f1daf3da2c53c951856c03ac01ff48",
-      "sourceName": "contracts/TokenBondingCurve_Ploynomial.sol",
+    "contracts/TokenBondingCurve_Polynomial.sol": {
+      "lastModificationDate": 1675770625944,
+      "contentHash": "88ea5e428a718e039f332f098f1beac3",
+      "sourceName": "contracts/TokenBondingCurve_Polynomial.sol",
       "solcConfig": {
         "settings": {
           "optimizer": {
@@ -185,8 +185,8 @@
       ],
       "versionRequirement": "^0.8.17",
       "artifacts": {
-        "BondingCurveToken_Polynomial": {
-          "0.8.17+commit.8df45f5f.Windows.msvc": "TokenBondingCurve_Ploynomial.sol\\BondingCurveToken_Polynomial.json"
+        "TokenBondingCurve_Polynomial": {
+          "0.8.17+commit.8df45f5f.Windows.msvc": "TokenBondingCurve_Polynomial.sol\\TokenBondingCurve_Polynomial.json"
         }
       }
     },
@@ -1224,6 +1224,68 @@
       "artifacts": {
         "TokenBondingCurve_LinearTest": {
           "0.8.17+commit.8df45f5f.Windows.msvc": "TBDL.t.sol\\TokenBondingCurve_LinearTest.json"
+        }
+      }
+    },
+    "test/foundry/test/TBDP.t.sol": {
+      "lastModificationDate": 1675771177657,
+      "contentHash": "daed0a5b4371628c425e2434ad3e697e",
+      "sourceName": "test/foundry/test/TBDP.t.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "contracts\\TokenBondingCurve_Polynomial.sol",
+        "lib/forge-std/lib/ds-test/src\\test.sol",
+        "lib/forge-std/src/Base.sol",
+        "lib/forge-std/src/StdAssertions.sol",
+        "lib/forge-std/src/StdChains.sol",
+        "lib/forge-std/src/StdCheats.sol",
+        "lib/forge-std/src/StdError.sol",
+        "lib/forge-std/src/StdJson.sol",
+        "lib/forge-std/src/StdMath.sol",
+        "lib/forge-std/src/StdStorage.sol",
+        "lib/forge-std/src/StdUtils.sol",
+        "lib/forge-std/src/Test.sol",
+        "lib/forge-std/src/Vm.sol",
+        "lib/forge-std/src/console.sol",
+        "lib/forge-std/src/console2.sol",
+        "lib/forge-std/src/interfaces/IMulticall3.sol",
+        "node_modules/@openzeppelin\\contracts/access/Ownable.sol",
+        "node_modules/@openzeppelin\\contracts/token/ERC20/ERC20.sol",
+        "node_modules/@openzeppelin/contracts/token/ERC20/IERC20.sol",
+        "node_modules/@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol",
+        "node_modules/@openzeppelin/contracts/utils/Context.sol"
+      ],
+      "versionRequirement": "^0.8.13",
+      "artifacts": {
+        "TokenBondingCurve_PolynomialTest": {
+          "0.8.17+commit.8df45f5f.Windows.msvc": "TBDP.t.sol\\TokenBondingCurve_PolynomialTest.json"
         }
       }
     }
