@@ -11,5 +11,6 @@ npx hardhat node
 npx hardhat run scripts/TokenBondingCurve_Ploynomial.ts
 npx hardhat run scripts/TokenBondingCurve_Exponential.ts
 npx hardhat run scripts/TokenBondingCurve_Linear.ts
+forge build
 forge test
 ```
