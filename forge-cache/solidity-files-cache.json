@@ -12,46 +12,6 @@
     ]
   },
   "files": {
-    "contracts/Counter.sol": {
-      "lastModificationDate": 1675525846449,
-      "contentHash": "063d1192e5b4e76cc73182123b32067a",
-      "sourceName": "contracts/Counter.sol",
-      "solcConfig": {
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "metadata": {
-            "bytecodeHash": "ipfs",
-            "appendCBOR": true
-          },
-          "outputSelection": {
-            "*": {
-              "": [
-                "ast"
-              ],
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ]
-            }
-          },
-          "evmVersion": "london",
-          "libraries": {}
-        }
-      },
-      "imports": [],
-      "versionRequirement": "^0.8.13",
-      "artifacts": {
-        "Counter": {
-          "0.8.17+commit.8df45f5f.Windows.msvc": "Counter.sol\\Counter.json"
-        }
-      }
-    },
     "contracts/TokenBondingCurve_Exponential.sol": {
       "lastModificationDate": 1675865522804,
       "contentHash": "d172232827cc3dec1c7df9f15b047b51",
@@ -1043,63 +1003,6 @@
       "artifacts": {
         "Context": {
           "0.8.17+commit.8df45f5f.Windows.msvc": "Context.sol\\Context.json"
-        }
-      }
-    },
-    "test/foundry/test/Counter.t.sol": {
-      "lastModificationDate": 1675525847404,
-      "contentHash": "ffb99713f104dc7b538954252f1ba8f8",
-      "sourceName": "test/foundry/test/Counter.t.sol",
-      "solcConfig": {
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "metadata": {
-            "bytecodeHash": "ipfs",
-            "appendCBOR": true
-          },
-          "outputSelection": {
-            "*": {
-              "": [
-                "ast"
-              ],
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ]
-            }
-          },
-          "evmVersion": "london",
-          "libraries": {}
-        }
-      },
-      "imports": [
-        "contracts\\Counter.sol",
-        "lib/forge-std/lib/ds-test/src\\test.sol",
-        "lib/forge-std/src/Base.sol",
-        "lib/forge-std/src/StdAssertions.sol",
-        "lib/forge-std/src/StdChains.sol",
-        "lib/forge-std/src/StdCheats.sol",
-        "lib/forge-std/src/StdError.sol",
-        "lib/forge-std/src/StdJson.sol",
-        "lib/forge-std/src/StdMath.sol",
-        "lib/forge-std/src/StdStorage.sol",
-        "lib/forge-std/src/StdUtils.sol",
-        "lib/forge-std/src/Test.sol",
-        "lib/forge-std/src/Vm.sol",
-        "lib/forge-std/src/console.sol",
-        "lib/forge-std/src/console2.sol",
-        "lib/forge-std/src/interfaces/IMulticall3.sol"
-      ],
-      "versionRequirement": "^0.8.13",
-      "artifacts": {
-        "Counter.t": {
-          "0.8.17+commit.8df45f5f.Windows.msvc": "Counter.t.sol\\Counter.t.json"
         }
       }
     },
