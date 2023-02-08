@@ -80,11 +80,11 @@ contract TokenBondingCurve_Linear is ERC20, Ownable {
     }
 
     /**
-     * @dev Returns the current price of the token based on the bonding curve formula.
-     * @return The current price of the token in wei.
+     * @dev Returns the current price of the next token based on the bonding curve formula.
+     * @return The current price of the next token in wei.
      */
     function getCurrentPrice() external view returns (uint) {
-        return _slope * totalSupply();
+        return _calculatePriceForBuy(1);
     }
 
     /**

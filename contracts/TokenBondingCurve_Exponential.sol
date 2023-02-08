@@ -77,25 +77,14 @@ contract TokenBondingCurve_Exponential is ERC20, Ownable {
     }
 
     /**
-     * @dev Returns the price for buying a specified number of tokens.
-     * @param _tokensToBuy The number of tokens to buy.
-     * @return The price in wei.
-     */
-    function _priceOfToken(
-        uint256 _tokensToBuy
-    ) private view returns (uint256) {
-        return _tokensToBuy ** _exponent;
-    }
-
-    /**
-     * @dev Returns the current price of the token based on the bonding curve formula.
-     * @return The current price of the token in wei.
+     * @dev Returns the current price of the next token based on the bonding curve formula.
+     * @return The current price of the next token in wei.
      */
     function getCurrentPrice() external view returns (uint) {
-        return _priceOfToken(totalSupply()) * totalSupply();
+        return _calculatePriceForBuy(1);
     }
 
-    /**
+    /** 
      * @dev Returns the price for buying a specified number of tokens.
      * @param _tokensToBuy The number of tokens to buy.
      * @return The price in wei.
