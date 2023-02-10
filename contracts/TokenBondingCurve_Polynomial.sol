@@ -24,6 +24,9 @@ contract TokenBondingCurve_Polynomial is ERC20, Ownable {
     //so user cannot mint more than 100 tokens at once
     uint256 private mintCap = 100;
 
+    event tokensBought(address buyer, uint amount, uint total_supply, uint newPrice);
+    event tokensSold(address seller, uint amount, uint total_supply, uint newPrice);
+
     /**
      * @dev Constructor to initialize the contract.
      * @param name_ The name of the token.
@@ -58,6 +61,8 @@ contract TokenBondingCurve_Polynomial is ERC20, Ownable {
         
         (bool sent,) = payable(owner()).call{value: msg.value - price}("");
         require(sent, "Failed to send Ether");
+
+        emit tokensBought(msg.sender, _amount, totalSupply(), getCurrentPrice());
     }
 
     /**
@@ -76,6 +81,8 @@ contract TokenBondingCurve_Polynomial is ERC20, Ownable {
 
         (bool sent,) = payable(owner()).call{value: _price - tax}("");
         require(sent, "Failed to send Ether");
+
+        emit tokensSold(msg.sender, _amount, totalSupply(), getCurrentPrice());
     }
 
     /**
@@ -96,7 +103,7 @@ contract TokenBondingCurve_Polynomial is ERC20, Ownable {
      * @dev Returns the current price of the next token based on the bonding curve formula.
      * @return The current price of the next token in wei.
      */
-    function getCurrentPrice() external view returns (uint) {
+    function getCurrentPrice() public view returns (uint) {
         return _calculatePriceForBuy(1);
     }
 
