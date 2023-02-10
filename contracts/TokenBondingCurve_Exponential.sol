@@ -180,7 +180,7 @@ contract TokenBondingCurve_Exponential is ERC20, Ownable {
      * @return New Loss.
      */
     function setLoss(uint _loss) external onlyOwner returns (uint256) {
-        require(_loss_fee_percentage >= 1000 && _loss_fee_percentage < 5000, "require loss to be >= 1000 & < 5000");
+        require(_loss_fee_percentage < 5000, "require loss to be >= 1000 & < 5000");
         _loss_fee_percentage = _loss;
         return _loss_fee_percentage;
     }
