@@ -10,6 +10,7 @@ contract TokenBondingCurve_LinearTest is Test {
     TokenBondingCurve_Linear public tbcl;     
     address user = address(1);
     address deployer = address(100);
+    uint totalSupplySlot = 2;
     event tester(uint);
 
     function setUp() public {
@@ -41,15 +42,20 @@ contract TokenBondingCurve_LinearTest is Test {
         vm.stopPrank();
     }
 
-    function testBuy_withFuzzing(uint amount) public {
+    function testBuy_withFuzzing(uint amount, uint total_supply_) public {
         // vm.assume(amount > 40000050 && amount < 50000000);
-        vm.assume(amount > 0 && amount < 900000000000);
+        vm.store(address(tbcl), bytes32(totalSupplySlot), bytes32(total_supply_));
+        uint256 old_total_supply = uint256(vm.load(address(tbcl), bytes32(totalSupplySlot)));  
+        console.log(tbcl.totalSupply());
+        vm.assume(amount > 0 && amount < 100);
+        vm.assume(total_supply_ < 900000000);
         uint oldBal = address(tbcl).balance;
         uint val = tbcl.calculatePriceForBuy(amount);
         vm.deal(user, 1000000000000000000000000000000000000 ether);
         vm.startPrank(user);
         tbcl.buy{value: val}(amount);
-        assertEq(tbcl.totalSupply(), amount);
+        assertEq(tbcl.totalSupply(), old_total_supply + amount);
+        console.log(tbcl.totalSupply(), tbcl.totalSupply() + amount);
         assertEq(address(tbcl).balance, oldBal + val);
         vm.stopPrank();
     }
@@ -58,7 +64,7 @@ contract TokenBondingCurve_LinearTest is Test {
         // vm.assume(amount > 40000050 && amount < 50000000);
         //assumptions
         
-        vm.assume(amount > 0 && amount <= 900000000000);
+        vm.assume(amount > 0 && amount <= 100);
 
         //save some variables
         uint oldBal = address(tbcl).balance;

@@ -10,7 +10,9 @@ contract TokenBondingCurve_ExponentialTest is Test {
     TokenBondingCurve_Exponential public tbce;     
     address user = address(1);
     address deployer = address(100);
+    uint totalSupplySlot = 2;
     event tester(uint);
+    event test (bytes32);
 
     function setUp() public {
         vm.prank(deployer);
@@ -21,35 +23,38 @@ contract TokenBondingCurve_ExponentialTest is Test {
         uint amount = 5;
         uint oldBal = address(tbce).balance;
         uint val = tbce.calculatePriceForBuy(amount);
+        
         vm.deal(user, 1 ether);
         vm.startPrank(user);
         tbce.buy{value: val}(amount);
         assertEq(tbce.totalSupply(), amount);
         assertEq(address(tbce).balance, oldBal + val);
-        vm.stopPrank();
+        vm.stopPrank(); 
     }
 
     function testCannot_Buy() public {
-        // bytes calldata err = bytes("LowOnEther(0, 0)");
-        // vm.expectRevert(err);
         vm.expectRevert(
             abi.encodeWithSelector(LowOnEther.selector, 0, 0)
         );
-        // vm.expectRevert("LowOnEther(0, 0)");
         vm.startPrank(user);
         tbce.buy(5);
         vm.stopPrank();
     }
 
-    function testBuy_withFuzzing(uint amount) public {
+    function testBuy_withFuzzing(uint amount, uint total_supply_) public {
         // vm.assume(amount > 40000050 && amount < 50000000);
-        vm.assume(amount > 0 && amount < 900000000000);
+        vm.store(address(tbce), bytes32(totalSupplySlot), bytes32(total_supply_));
+        uint256 old_total_supply = uint256(vm.load(address(tbce), bytes32(totalSupplySlot)));  
+        console.log(tbce.totalSupply());
+        vm.assume(amount > 0 && amount < 100);
+        vm.assume(total_supply_ < 900000000);
         uint oldBal = address(tbce).balance;
         uint val = tbce.calculatePriceForBuy(amount);
         vm.deal(user, 1000000000000000000000000000000000000 ether);
         vm.startPrank(user);
         tbce.buy{value: val}(amount);
-        assertEq(tbce.totalSupply(), amount);
+        assertEq(tbce.totalSupply(), old_total_supply + amount);
+        console.log(tbce.totalSupply(), tbce.totalSupply() + amount);
         assertEq(address(tbce).balance, oldBal + val);
         vm.stopPrank();
     }
@@ -58,7 +63,7 @@ contract TokenBondingCurve_ExponentialTest is Test {
         // vm.assume(amount > 40000050 && amount < 50000000);
         //assumptions
         
-        vm.assume(amount > 0 && amount <= 900000000000);
+        vm.assume(amount > 0 && amount <= 100);
 
         //save some variables
         uint oldBal = address(tbce).balance;

@@ -1414,7 +1414,7 @@
             "nodes": [],
             "constant": true,
             "mutability": "constant",
-            "name": "_LOSS_FEE_PERCENTAGE",
+            "name": "_loss_fee_percentage",
             "nameLocation": "544:20:0",
             "scope": 347,
             "stateVariable": true,
@@ -5297,7 +5297,7 @@
                           "operator": "*",
                           "rightExpression": {
                             "id": 338,
-                            "name": "_LOSS_FEE_PERCENTAGE",
+                            "name": "_loss_fee_percentage",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
                             "referencedDeclaration": 26,

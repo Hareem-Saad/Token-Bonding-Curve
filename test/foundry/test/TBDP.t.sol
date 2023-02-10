@@ -10,6 +10,7 @@ contract TokenBondingCurve_PolynomialTest is Test {
     TokenBondingCurve_Polynomial public tbcp;     
     address user = address(1);
     address deployer = address(100);
+    uint totalSupplySlot = 2;
     event tester(uint);
 
     function setUp() public {
@@ -41,15 +42,20 @@ contract TokenBondingCurve_PolynomialTest is Test {
         vm.stopPrank();
     }
 
-    function testBuy_withFuzzing(uint amount) public {
+    function testBuy_withFuzzing(uint amount, uint total_supply_) public {
         // vm.assume(amount > 40000050 && amount < 50000000);
-        vm.assume(amount > 0 && amount < 900000000);
+        vm.store(address(tbcp), bytes32(totalSupplySlot), bytes32(total_supply_));
+        uint256 old_total_supply = uint256(vm.load(address(tbcp), bytes32(totalSupplySlot)));  
+        console.log(tbcp.totalSupply());
+        vm.assume(amount > 0 && amount < 100);
+        vm.assume(total_supply_ < 900000000);
         uint oldBal = address(tbcp).balance;
         uint val = tbcp.calculatePriceForBuy(amount);
         vm.deal(user, 1000000000000000000000000000000000000 ether);
         vm.startPrank(user);
         tbcp.buy{value: val}(amount);
-        assertEq(tbcp.totalSupply(), amount);
+        assertEq(tbcp.totalSupply(), old_total_supply + amount);
+        console.log(tbcp.totalSupply(), tbcp.totalSupply() + amount);
         assertEq(address(tbcp).balance, oldBal + val);
         vm.stopPrank();
     }
@@ -58,7 +64,7 @@ contract TokenBondingCurve_PolynomialTest is Test {
         // vm.assume(amount > 40000050 && amount < 50000000);
         //assumptions
         
-        vm.assume(amount > 0 && amount <= 900000000);
+        vm.assume(amount > 0 && amount <= 100);
 
         //save some variables
         uint oldBal = address(tbcp).balance;

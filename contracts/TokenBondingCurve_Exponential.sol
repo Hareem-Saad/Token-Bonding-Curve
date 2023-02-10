@@ -7,6 +7,7 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 error LowOnTokens(uint amount, uint balance);
 error LowOnEther(uint amount, uint balance);
+error ValueExceedsMintCap(uint amount, uint MintCap);
 
 contract TokenBondingCurve_Exponential is ERC20, Ownable {
     uint256 private _tax;
@@ -14,7 +15,12 @@ contract TokenBondingCurve_Exponential is ERC20, Ownable {
     uint256 private immutable _exponent;
 
     // The percentage of loss when selling tokens (using two decimals)
-    uint256 private constant _LOSS_FEE_PERCENTAGE = 1000;
+    //the last 2 digits represent decimal value
+    //so a loss of 20.5% will be represented as 2050
+    uint256 private _loss_fee_percentage = 1000;
+
+    //so user cannot mint more than 100 tokens at once
+    uint256 private mintCap = 100;
 
     /**
      * @dev Constructor to initialize the contract.
@@ -39,6 +45,9 @@ contract TokenBondingCurve_Exponential is ERC20, Ownable {
         uint price = _calculatePriceForBuy(_amount);
         if(msg.value < price) {
             revert LowOnEther(msg.value, address(msg.sender).balance);
+        }
+        if(_amount > mintCap) {
+            revert ValueExceedsMintCap(_amount, mintCap);
         }
         _mint(msg.sender, _amount);
         (bool sent,) = payable(msg.sender).call{value: msg.value - price}("");
@@ -146,11 +155,34 @@ contract TokenBondingCurve_Exponential is ERC20, Ownable {
      * @param amount The price of the tokens being sold.
      * @return The loss in wei.
      */
-    function _calculateLoss(uint256 amount) private pure returns (uint256) {
-        return (amount * _LOSS_FEE_PERCENTAGE) / (1E4);
+    function _calculateLoss(uint256 amount) private view returns (uint256) {
+        return (amount * _loss_fee_percentage) / (1E4);
     }
 
     function viewTax() external view onlyOwner returns (uint256) {
         return _tax;
+    }
+
+     /**
+     * @dev Sets the loss for selling a certain number of tokens.
+     * @param _loss the loss percentage, must be a 4 digit value, last 2 digits represent decimals
+     * so a loss of 20.5% will be represented as 2050
+     * @return New Loss.
+     */
+    function setLoss(uint _loss) external onlyOwner returns (uint256) {
+        require(_loss_fee_percentage >= 1000 && _loss_fee_percentage < 5000, "require loss to be >= 1000 & < 5000");
+        _loss_fee_percentage = _loss;
+        return _loss_fee_percentage;
+    }
+
+     /**
+     * @dev Sets the minting cap, so user can not mint more than this value in one tx
+     * @param _mintCap The new minting cap value must be greater than 10
+     * @return New mint cap.
+     */
+    function setMintCap(uint _mintCap) external onlyOwner returns (uint256) {
+        require(mintCap >= 10, "value should be greater than 10");
+        mintCap = _mintCap;
+        return mintCap;
     }
 }
