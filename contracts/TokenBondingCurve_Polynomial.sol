@@ -26,6 +26,7 @@ contract TokenBondingCurve_Polynomial is ERC20, Ownable {
 
     event tokensBought(address buyer, uint amount, uint total_supply, uint newPrice);
     event tokensSold(address seller, uint amount, uint total_supply, uint newPrice);
+    event withdrawn(uint amount, uint time);
 
     /**
      * @dev Constructor to initialize the contract.
@@ -97,6 +98,8 @@ contract TokenBondingCurve_Polynomial is ERC20, Ownable {
         
         (bool sent,) = payable(owner()).call{value: amount}("");
         require(sent, "Failed to send Ether");
+
+        emit withdrawn (amount, block.timestamp);
     }
 
     /**

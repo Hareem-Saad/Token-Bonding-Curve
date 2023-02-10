@@ -13,8 +13,8 @@
   },
   "files": {
     "contracts/TokenBondingCurve_Exponential.sol": {
-      "lastModificationDate": 1676005192700,
-      "contentHash": "5ce76090ede80cfb17cc489f21afc1e7",
+      "lastModificationDate": 1676009597500,
+      "contentHash": "858a60a137e3339110144f6f5121950a",
       "sourceName": "contracts/TokenBondingCurve_Exponential.sol",
       "solcConfig": {
         "settings": {
@@ -1007,7 +1007,7 @@
       }
     },
     "test/foundry/test/TBDE.t.sol": {
-      "lastModificationDate": 1676004549640,
+      "lastModificationDate": 1676009448737,
       "contentHash": "7ab36f5b9a734a1e02f58ade5543d146",
       "sourceName": "test/foundry/test/TBDE.t.sol",
       "solcConfig": {
