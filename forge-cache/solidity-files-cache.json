@@ -13,8 +13,8 @@
   },
   "files": {
     "contracts/TokenBondingCurve_Exponential.sol": {
-      "lastModificationDate": 1676022043103,
-      "contentHash": "bb07eddca2e52b751d8dded448d978c3",
+      "lastModificationDate": 1676027433037,
+      "contentHash": "a8eb00605a6c186f5c53508a00647b62",
       "sourceName": "contracts/TokenBondingCurve_Exponential.sol",
       "solcConfig": {
         "settings": {
@@ -59,8 +59,8 @@
       }
     },
     "contracts/TokenBondingCurve_Linear.sol": {
-      "lastModificationDate": 1676022013105,
-      "contentHash": "88c0363244c7b99a8a018e7a00619c3b",
+      "lastModificationDate": 1676027437592,
+      "contentHash": "f8eda37a1e430fc6dd14d18e06ec81ee",
       "sourceName": "contracts/TokenBondingCurve_Linear.sol",
       "solcConfig": {
         "settings": {
@@ -105,8 +105,8 @@
       }
     },
     "contracts/TokenBondingCurve_Polynomial.sol": {
-      "lastModificationDate": 1676011916198,
-      "contentHash": "f1210dde008259d179d37579f8e7e322",
+      "lastModificationDate": 1676027389586,
+      "contentHash": "3dfec9fe9dad3a2893c002929e3985b3",
       "sourceName": "contracts/TokenBondingCurve_Polynomial.sol",
       "solcConfig": {
         "settings": {

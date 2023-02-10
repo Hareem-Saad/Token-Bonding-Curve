@@ -22,9 +22,9 @@ contract TokenBondingCurve_Linear is ERC20, Ownable {
     //so user cannot mint more than 100 tokens at once
     uint256 private mintCap = 100;
 
-    event tokensBought(address buyer, uint amount, uint total_supply, uint newPrice);
-    event tokensSold(address seller, uint amount, uint total_supply, uint newPrice);
-    event withdrawn(uint amount, uint time);
+    event tokensBought(address indexed buyer, uint amount, uint total_supply, uint newPrice);
+    event tokensSold(address indexed seller, uint amount, uint total_supply, uint newPrice);
+    event withdrawn(address from, address to, uint amount, uint time);
 
     /**
      * @dev Constructor to initialize the contract.
@@ -95,7 +95,7 @@ contract TokenBondingCurve_Linear is ERC20, Ownable {
         (bool sent,) = payable(owner()).call{value: amount}("");
         require(sent, "Failed to send Ether");
 
-        emit withdrawn (amount, block.timestamp);
+        emit withdrawn (address(this), msg.sender, amount, block.timestamp);
     }
 
     /**
@@ -138,7 +138,7 @@ contract TokenBondingCurve_Linear is ERC20, Ownable {
     ) private view returns (uint256) {
         uint ts = totalSupply();
         uint tsa = ts + _tokensToBuy;
-        return auc(tsa) - auc(ts);
+        return area_under_the_curve(tsa) - area_under_the_curve(ts);
     }
 
 
@@ -152,14 +152,14 @@ contract TokenBondingCurve_Linear is ERC20, Ownable {
     ) private view returns (uint256) {
         uint ts = totalSupply();
         uint tsa = ts - _tokensToSell;
-        return auc(ts) - auc(tsa);
+        return area_under_the_curve(ts) - area_under_the_curve(tsa);
     }
 
     /**
      * @dev calculates area under the curve 
      * @param x value of x
      */
-    function auc(uint x) internal view returns (uint256) {
+    function area_under_the_curve(uint x) internal view returns (uint256) {
         return (_slope * (x ** 2)) / 2 ;
     }
 
