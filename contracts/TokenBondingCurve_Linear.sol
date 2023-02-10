@@ -21,6 +21,7 @@ contract TokenBondingCurve_Linear is ERC20, Ownable {
 
     //so user cannot mint more than 100 tokens at once
     uint256 private mintCap = 100;
+    uint256 private supplyCap = 1000000000;
 
     event tokensBought(address indexed buyer, uint amount, uint total_supply, uint newPrice);
     event tokensSold(address indexed seller, uint amount, uint total_supply, uint newPrice);
@@ -47,6 +48,7 @@ contract TokenBondingCurve_Linear is ERC20, Ownable {
      * @param _amount The number of tokens to buy.
      */
     function buy(uint256 _amount) external payable {
+        require(totalSupply() + _amount <= supplyCap, "exceeds supply cap");
         uint price = _calculatePriceForBuy(_amount);
             // emit tester(msg.value);
             // emit tester(price);

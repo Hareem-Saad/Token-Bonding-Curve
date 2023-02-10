@@ -48,7 +48,7 @@ contract TokenBondingCurve_LinearTest is Test {
         uint256 old_total_supply = uint256(vm.load(address(tbcl), bytes32(totalSupplySlot)));  
         console.log(tbcl.totalSupply());
         vm.assume(amount > 0 && amount < 100);
-        vm.assume(total_supply_ < 900000000);
+        vm.assume(total_supply_ < 1000000000);
         uint oldBal = address(tbcl).balance;
         uint val = tbcl.calculatePriceForBuy(amount);
         vm.deal(user, 1000000000000000000000000000000000000 ether);

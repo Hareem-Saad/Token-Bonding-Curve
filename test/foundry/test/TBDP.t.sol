@@ -48,7 +48,7 @@ contract TokenBondingCurve_PolynomialTest is Test {
         uint256 old_total_supply = uint256(vm.load(address(tbcp), bytes32(totalSupplySlot)));  
         console.log(tbcp.totalSupply());
         vm.assume(amount > 0 && amount < 100);
-        vm.assume(total_supply_ < 900000000);
+        vm.assume(total_supply_ < 1000000000);
         uint oldBal = address(tbcp).balance;
         uint val = tbcp.calculatePriceForBuy(amount);
         vm.deal(user, 1000000000000000000000000000000000000 ether);
