@@ -15,7 +15,7 @@ contract TokenBondingCurve_PolynomialTest is Test {
 
     function setUp() public {
         vm.prank(deployer);
-        tbcp = new TokenBondingCurve_Polynomial("alphabet", "abc", 4, 1);
+        tbcp = new TokenBondingCurve_Polynomial("alphabet", "abc", 4, 1, 1000000000);
     }
 
     function testBuy() public {

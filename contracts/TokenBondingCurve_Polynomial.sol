@@ -41,10 +41,12 @@ contract TokenBondingCurve_Polynomial is ERC20, Ownable {
         string memory name_,
         string memory symbol_,
         uint exponent_,
-        uint constant_
+        uint constant_,
+        uint _supplyCap
     ) ERC20(name_, symbol_) {
         _exponent = exponent_;
         _constant = constant_;
+        supplyCap = _supplyCap;
     }
 
     /**
@@ -208,13 +210,13 @@ contract TokenBondingCurve_Polynomial is ERC20, Ownable {
 
     /**
      * @dev Sets the supply cap
-     * @param _mintCap The new cap value must be greater than total supply
+     * @param _cap The new cap value must be greater than total supply
      * @return New supply cap.
      * DANGER OF FRONT RUNNING ATTACK
      */
     function setSupplyCap(uint _cap) external onlyOwner returns (uint256) {
         require(_cap >= totalSupply(), "value cannot be less than total supply");
-        mintCap = _mintCap;
-        return mintCap;
+        supplyCap = _cap;
+        return supplyCap;
     }
 }

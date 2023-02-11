@@ -5,7 +5,7 @@ async function main() {
   // const lockedAmount = ethers.utils.parseEther("1");
 
   const Contract = await ethers.getContractFactory("BondingCurveToken_Exponential");
-  const contract = await Contract.deploy("abc", "ABC", 3);
+  const contract = await Contract.deploy("abc", "ABC", 3, 1000000000);
 
   const [owner, acc1, acc2] = await ethers.getSigners();
 

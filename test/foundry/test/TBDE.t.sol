@@ -16,7 +16,7 @@ contract TokenBondingCurve_ExponentialTest is Test {
 
     function setUp() public {
         vm.prank(deployer);
-        tbce = new TokenBondingCurve_Exponential("alphabet", "abc", 2);
+        tbce = new TokenBondingCurve_Exponential("alphabet", "abc", 2, 1000000000);
     }
 
     function testBuy() public {

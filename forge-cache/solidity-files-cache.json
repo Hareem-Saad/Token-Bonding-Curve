@@ -13,8 +13,8 @@
   },
   "files": {
     "contracts/TokenBondingCurve_Exponential.sol": {
-      "lastModificationDate": 1676027433037,
-      "contentHash": "a8eb00605a6c186f5c53508a00647b62",
+      "lastModificationDate": 1676088324422,
+      "contentHash": "2c762b626aa2dc2441d7ad8cf7772b51",
       "sourceName": "contracts/TokenBondingCurve_Exponential.sol",
       "solcConfig": {
         "settings": {
@@ -59,8 +59,8 @@
       }
     },
     "contracts/TokenBondingCurve_Linear.sol": {
-      "lastModificationDate": 1676027437592,
-      "contentHash": "f8eda37a1e430fc6dd14d18e06ec81ee",
+      "lastModificationDate": 1676088321230,
+      "contentHash": "30d91ec40f141439eaa4159255488395",
       "sourceName": "contracts/TokenBondingCurve_Linear.sol",
       "solcConfig": {
         "settings": {
@@ -105,8 +105,8 @@
       }
     },
     "contracts/TokenBondingCurve_Polynomial.sol": {
-      "lastModificationDate": 1676027905391,
-      "contentHash": "2ccafd390c8c823061f78552a5d2c11f",
+      "lastModificationDate": 1676088427808,
+      "contentHash": "2555faecd4832df932d852becaa8d522",
       "sourceName": "contracts/TokenBondingCurve_Polynomial.sol",
       "solcConfig": {
         "settings": {
@@ -1007,8 +1007,8 @@
       }
     },
     "test/foundry/test/TBDE.t.sol": {
-      "lastModificationDate": 1676009448737,
-      "contentHash": "7ab36f5b9a734a1e02f58ade5543d146",
+      "lastModificationDate": 1676088259549,
+      "contentHash": "5f2662995d6a24ca63eea62fa7b5a152",
       "sourceName": "test/foundry/test/TBDE.t.sol",
       "solcConfig": {
         "settings": {
@@ -1069,8 +1069,8 @@
       }
     },
     "test/foundry/test/TBDL.t.sol": {
-      "lastModificationDate": 1676009448737,
-      "contentHash": "5d668534e7e7fc2dafd1cae1b688e9c4",
+      "lastModificationDate": 1676088263659,
+      "contentHash": "64a26725b03bc99b1344f1ac8949438d",
       "sourceName": "test/foundry/test/TBDL.t.sol",
       "solcConfig": {
         "settings": {
@@ -1131,8 +1131,8 @@
       }
     },
     "test/foundry/test/TBDP.t.sol": {
-      "lastModificationDate": 1676009448737,
-      "contentHash": "5c7459d8f09e6d6a3860feaf66758fda",
+      "lastModificationDate": 1676088268767,
+      "contentHash": "42bdb31687098988e35c8d676e3f31c5",
       "sourceName": "test/foundry/test/TBDP.t.sol",
       "solcConfig": {
         "settings": {

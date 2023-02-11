@@ -15,7 +15,7 @@ contract TokenBondingCurve_LinearTest is Test {
 
     function setUp() public {
         vm.prank(deployer);
-        tbcl = new TokenBondingCurve_Linear("alphabet", "abc", 2);
+        tbcl = new TokenBondingCurve_Linear("alphabet", "abc", 2, 1000000000);
     }
 
     function testBuy() public {

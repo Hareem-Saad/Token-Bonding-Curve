@@ -21,6 +21,7 @@ contract TokenBondingCurve_Exponential is ERC20, Ownable {
 
     //so user cannot mint more than 100 tokens at once
     uint256 private mintCap = 100;
+    uint256 private supplyCap = 1000000000;
 
     event tokensBought(address indexed buyer, uint amount, uint total_supply, uint newPrice);
     event tokensSold(address indexed seller, uint amount, uint total_supply, uint newPrice);
@@ -36,9 +37,11 @@ contract TokenBondingCurve_Exponential is ERC20, Ownable {
     constructor(
         string memory name_,
         string memory symbol_,
-        uint exponent_
+        uint exponent_,
+        uint _supplyCap
     ) ERC20(name_, symbol_) {
         _exponent = exponent_;
+        supplyCap = _supplyCap;
     }
 
     /**
@@ -46,6 +49,7 @@ contract TokenBondingCurve_Exponential is ERC20, Ownable {
      * @param _amount The number of tokens to buy.
      */
     function buy(uint256 _amount) external payable {
+        require(totalSupply() + _amount <= supplyCap, "exceeds supply cap");
         uint price = _calculatePriceForBuy(_amount);
         if(msg.value < price) {
             revert LowOnEther(msg.value, address(msg.sender).balance);
