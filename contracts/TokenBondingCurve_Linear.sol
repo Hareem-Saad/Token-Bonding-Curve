@@ -202,4 +202,15 @@ contract TokenBondingCurve_Linear is ERC20, Ownable {
         mintCap = _mintCap;
         return mintCap;
     }
+
+    /**
+     * @dev Sets the supply cap
+     * @param _cap The new cap value must be greater than total supply
+     * @return New supply cap.
+     */
+    function setSupplyCap(uint _cap) external onlyOwner returns (uint256) {
+        require(_cap >= totalSupply(), "value cannot be less than total supply");
+        supplyCap = _cap;
+        return supplyCap;
+    }
 }

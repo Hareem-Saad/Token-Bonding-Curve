@@ -212,7 +212,6 @@ contract TokenBondingCurve_Polynomial is ERC20, Ownable {
      * @dev Sets the supply cap
      * @param _cap The new cap value must be greater than total supply
      * @return New supply cap.
-     * DANGER OF FRONT RUNNING ATTACK
      */
     function setSupplyCap(uint _cap) external onlyOwner returns (uint256) {
         require(_cap >= totalSupply(), "value cannot be less than total supply");
