@@ -78,7 +78,7 @@ contract TokenBondingCurve_Exponential is ERC20, Ownable {
         // console.log(tax, _price - tax);
         _tax += tax;
 
-        (bool sent,) = payable(owner()).call{value: _price - tax}("");
+        (bool sent,) = payable(msg.sender).call{value: _price - tax}("");
         require(sent, "Failed to send Ether");
 
         emit tokensSold(msg.sender, _amount, totalSupply(), getCurrentPrice());
