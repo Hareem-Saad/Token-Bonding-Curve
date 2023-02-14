@@ -64,7 +64,7 @@ contract TokenBondingCurve_Polynomial is ERC20, Ownable {
         }
         _mint(msg.sender, _amount);
         
-        (bool sent,) = payable(owner()).call{value: msg.value - price}("");
+        (bool sent,) = payable(msg.sender).call{value: msg.value - price}("");
         require(sent, "Failed to send Ether");
 
         emit tokensBought(msg.sender, _amount, totalSupply(), getCurrentPrice());
@@ -84,7 +84,7 @@ contract TokenBondingCurve_Polynomial is ERC20, Ownable {
         // console.log(tax, _price - tax);
         _tax += tax;
 
-        (bool sent,) = payable(owner()).call{value: _price - tax}("");
+        (bool sent,) = payable(msg.sender).call{value: _price - tax}("");
         require(sent, "Failed to send Ether");
 
         emit tokensSold(msg.sender, _amount, totalSupply(), getCurrentPrice());
